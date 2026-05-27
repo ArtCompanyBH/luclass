@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f9;
+            background-color: #e8f0fe; /* Azul bem claro, mais confortável para os olhos */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,61 +16,104 @@
         }
         .container {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 40px; /* Mais espaço interno */
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15); /* Sombra mais marcante */
             text-align: center;
-            max-width: 420px;
+            max-width: 500px; /* Um pouco mais largo para acomodar letras maiores */
             width: 100%;
         }
-        h2 { color: #007430; margin-bottom: 5px; } /* Verde padrão Google Meet */
-        p.sub { color: #5f6368; margin-bottom: 20px; font-size: 14px; }
-        select, button {
+        h2 { 
+            color: #006622; /* Verde um pouco mais escuro para melhor contraste */
+            font-size: 28px; /* Letras grandes */
+            margin-top: 0;
+            margin-bottom: 10px; 
+        }
+        p.sub { 
+            color: #202124; /* Texto quase preto para ficar bem legível */
+            margin-bottom: 30px; 
+            font-size: 18px; 
+            font-weight: 500;
+        }
+        label {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #202124;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        select {
             width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: 1px solid #dadce0;
-            font-size: 16px;
+            padding: 16px; /* Campo bem grande, fácil de clicar */
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 2px solid #70757a; /* Borda mais grossa e escura */
+            font-size: 20px; /* Letra grande dentro do seletor */
+            color: #202124;
+            background-color: #ffffff;
             box-sizing: border-box;
+            cursor: pointer;
         }
-        select:focus { border-color: #007430; outline: none; }
+        select:focus { 
+            border-color: #006622; 
+            outline: none; 
+        }
         button {
-            background-color: #007430;
+            width: 100%;
+            padding: 20px; /* Botão bem grande (fácil de acertar com o mouse) */
+            background-color: #00875a; /* Verde chamativo e oficial do Google */
             color: white;
             border: none;
+            border-radius: 8px;
+            font-size: 22px; /* Letra bem grande e nítida */
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 135, 90, 0.3);
+            transition: background 0.2s, transform 0.1s;
         }
-        button:hover { background-color: #005924; }
+        button:hover { 
+            background-color: #006622; 
+        }
+        button:active {
+            transform: scale(0.98); /* Dá uma sensação física de clique */
+        }
         .instrucoes {
-            font-size: 12px;
-            color: #5f6368;
-            margin-top: 15px;
+            font-size: 16px; /* Letra maior nas instruções */
+            color: #3c4043;
+            margin-top: 30px;
             text-align: left;
-            line-height: 1.4;
+            line-height: 1.6;
+            background-color: #f8f9fa; /* Caixinha cinza para destacar o texto */
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #006622;
+        }
+        .passo {
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Painel de Aulas (Meet)</h2>
-    <p class="sub">Link fixo configurado para todos os alunos</p>
+    <h2>Painel de Aulas</h2>
+    <p class="sub">Sistema de Chamada para o Google Meet</p>
     
-    <label for="aluno">Selecione o Aluno:</label>
+    <label for="aluno">Escreva ou escolha o Aluno abaixo:</label>
     <select id="aluno">
-        <option value="" data-whatsapp="#" data-email="joao@email.com">SELECIONAR ALUNO</option>
+        <option value="" data-whatsapp="" data-email="">👇 CLIQUE AQUI PARA SELECIONAR</option>
         <option value="" data-whatsapp="5531991317382" data-email="aroldo@email.com">LUCAS</option>
         <option value="" data-whatsapp="5531988702128" data-email="pedro@email.com">SERGIO</option>
     </select>
 
-    <button onclick="gerarReuniao('whatsapp')">🔮 Abrir Meet e Chamar no WhatsApp</button>
-   
+    <button onclick="gerarReuniao('whatsapp')">🟢 ENTRAR NA AULA E CHAMAR NO WHATSAPP</button>
 
     <div class="instrucoes">
-        <strong>Como funciona agora:</strong> O Google Meet abrirá na sua sala fixa e o contato selecionado receberá a mensagem com o link de acesso imediatamente. Tudo em um clique.
+        <strong>Como usar (Passo a Passo):</strong>
+        <div class="passo"><strong>1️⃣</strong> Clique na caixinha branca acima e escolha o nome do aluno.</div>
+        <div class="passo"><strong>2️⃣</strong> Clique no grande botão verde acima.</div>
+        <div class="passo"><strong>3️⃣</strong> O computador vai abrir a sua aula e já vai enviar o link no WhatsApp do aluno.</div>
     </div>
 </div>
 
@@ -79,9 +122,14 @@ function gerarReuniao(metodo) {
     const select = document.getElementById('aluno');
     const opcaoSelecionada = select.options[select.selectedIndex];
     
-    const nomeAluno = opcaoSelecionada.text;
     const whatsappAluno = opcaoSelecionada.getAttribute('data-whatsapp');
     const emailAluno = opcaoSelecionada.getAttribute('data-email');
+    
+    // VALIDAÇÃO: Se não escolheu nenhum aluno
+    if (!whatsappAluno) {
+        alert("⚠️ Atenção: Você esqueceu de escolher o aluno! Clique na caixinha e escolha um nome antes de apertar o botão verde. 😉");
+        return;
+    }
     
     // O seu link fixo do Google Meet
     const urlMeetFixo = "https://meet.google.com/qwd-ayrw-zjm";
@@ -100,6 +148,9 @@ function gerarReuniao(metodo) {
 
     // 2. Abre a sua sala do Meet na Web
     window.open(urlMeetFixo, '_blank');
+
+    // 🌟 NOVO: Reseta a seleção de volta para o padrão imediatamente
+    select.selectedIndex = 0;
 }
 </script>
 
