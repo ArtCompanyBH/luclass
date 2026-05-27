@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Aulas - Microsoft Teams</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+        }
+        h2 { color: #464eb8; margin-bottom: 5px; } /* Cor roxa padrão do Teams */
+        p.sub { color: #5f6368; margin-bottom: 20px; font-size: 14px; }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #dadce0;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        select:focus { border-color: #464eb8; outline: none; }
+        button {
+            background-color: #464eb8;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #3b3f9a; }
+        .instrucoes {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 15px;
+            text-align: left;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Painel de Aulas (Teams)</h2>
+    <p class="sub">Link fixo configurado para todos os alunos</p>
+    
+    <label for="aluno">Selecione o Aluno:</label>
+    <select id="aluno">
+        <option value="" data-whatsapp="5531982403462" data-email="joao@email.com">Yuri Mello</option>
+        <option value="" data-whatsapp="5531996946866" data-email="maria@email.com">Aroldo Costa</option>
+        <option value="" data-whatsapp="5511777777777" data-email="pedro@email.com">Pedro Oliveira</option>
+    </select>
+
+    <button onclick="gerarReuniao('whatsapp')">🔮 Abrir Teams e Chamar no WhatsApp</button>
+    <button onclick="gerarReuniao('email')" style="background-color: #34a853; margin-top: 8px;">📧 Abrir Teams e Chamar por E-mail</button>
+
+    <div class="instrucoes">
+        <strong>Como funciona agora:</strong> O Teams abrirá na sua sala fixa e o contato selecionado receberá a mensagem com o link de acesso imediatamente. Tudo em um clique.
+    </div>
+</div>
+
+<script>
+function gerarReuniao(metodo) {
+    const select = document.getElementById('aluno');
+    const opcaoSelecionada = select.options[select.selectedIndex];
+    
+    const nomeAluno = opcaoSelecionada.text;
+    const whatsappAluno = opcaoSelecionada.getAttribute('data-whatsapp');
+    const emailAluno = opcaoSelecionada.getAttribute('data-email');
+    
+    // O seu link fixo do Microsoft Teams
+    const urlTeamsFixo = "https://teams.live.com/meet/9332055807598?p=sfQi0c7O8GGdXMWqMF";
+
+    // Mensagem customizada que o aluno vai receber
+    const mensagem = `Olá, estou te aguardando para a nossa aula! Pode entrar pela nossa sala fixa no Teams: ${urlTeamsFixo}`;
+
+    // 1. Abre o canal de comunicação escolhido
+    if (metodo === 'whatsapp') {
+        const urlWhats = `https://api.whatsapp.com/send?phone=${whatsappAluno}&text=${encodeURIComponent(mensagem)}`;
+        window.open(urlWhats, '_blank');
+    } else if (metodo === 'email') {
+        const urlEmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAluno}&su=${encodeURIComponent('Link da nossa Aula - Microsoft Teams')}&body=${encodeURIComponent(mensagem)}`;
+        window.open(urlEmail, '_blank');
+    }
+
+    // 2. Abre a sua sala do Teams na Web
+    window.open(urlTeamsFixo, '_blank');
+}
+</script>
+
+</body>
+</html>
